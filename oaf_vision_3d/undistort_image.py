@@ -35,5 +35,4 @@ def undistort_image_with_new_camera_matrix(  # type: ignore
         ],
         axis=-1,
     )
-    
     return undistorted_image.astype(np.float32)
