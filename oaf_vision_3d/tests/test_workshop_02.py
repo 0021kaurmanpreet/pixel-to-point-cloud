@@ -1,5 +1,4 @@
 import numpy as np
-
 from oaf_vision_3d.lens_model import CameraMatrix, DistortionCoefficients, LensModel
 from oaf_vision_3d.tests.status import Status
 from test_data.data_paths import DataPaths
