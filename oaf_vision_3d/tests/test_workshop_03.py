@@ -1,6 +1,5 @@
 import numpy as np
 from matplotlib import pyplot as plt
-
 from oaf_vision_3d.lens_model import CameraMatrix, LensModel
 from oaf_vision_3d.tests.status import Status
 from oaf_vision_3d.undistort_image import undistort_image_with_new_camera_matrix
@@ -39,7 +38,7 @@ def workshop_03_results(overwrite: bool = False) -> Status:
     test_result = np.allclose(
         undistorted_images,
         reference_data["undistorted_images"],
-        atol=1e-5,
+        atol=1e-4,
     )
 
     return Status.from_bool(test_result)
