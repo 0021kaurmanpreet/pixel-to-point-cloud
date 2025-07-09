@@ -48,7 +48,7 @@ def solve_pnp(  # type: ignore
     rvec = rvec.copy()
     tvec = tvec.copy()
 
-    for i in range(max_iterations):
+    for _ in range(max_iterations):
         # Project points with current rvec and tvec
         projected_pixels, jacobian = cv2.projectPoints(
             objectPoints=points,

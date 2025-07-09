@@ -8,7 +8,6 @@
 from nptyping import Float32, NDArray, Shape
 import numpy as np
 from scipy.ndimage._interpolation import map_coordinates
-
 from oaf_vision_3d.lens_model import CameraMatrix, LensModel, normalize_pixels
 
 
