@@ -51,11 +51,7 @@ def solve_pnp(  # type: ignore
     for _ in range(max_iterations):
         # Project points with current rvec and tvec
         projected_pixels, jacobian = cv2.projectPoints(
-            objectPoints=points,
-            rvec=rvec,
-            tvec=tvec,
-            cameraMatrix=K,
-            distCoeffs=dist
+            objectPoints=points, rvec=rvec, tvec=tvec, cameraMatrix=K, distCoeffs=dist
         )
 
         # Reshape projected pixels and pixels

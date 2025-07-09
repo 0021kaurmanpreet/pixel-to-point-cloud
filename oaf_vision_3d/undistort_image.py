@@ -4,10 +4,12 @@
 # This function undistorts an image using a new camera matrix as done in the
 # [workshop](../workshops/03_image_distortion_and_undistortion.ipynb).
 
+import numpy as np
+
 # %%
 from nptyping import Float32, NDArray, Shape
-import numpy as np
 from scipy.ndimage._interpolation import map_coordinates
+
 from oaf_vision_3d.lens_model import CameraMatrix, LensModel, normalize_pixels
 
 
@@ -18,7 +20,7 @@ def undistort_image_with_new_camera_matrix(  # type: ignore
 ) -> NDArray[Shape["H, W, 3"], Float32]:
     y, x = np.indices(image.shape[:2])
     pixels = np.stack([x, y], axis=-1)
-    normalized_pixels = normalize_pixels(pixels=pixels,camera_matrix=new_camera_matrix)
+    normalized_pixels = normalize_pixels(pixels=pixels, camera_matrix=new_camera_matrix)
     distorted_normalized_pixels = lens_model.distort_pixels(
         normalized_pixels=normalized_pixels
     )
