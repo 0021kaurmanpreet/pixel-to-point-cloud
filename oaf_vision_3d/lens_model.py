@@ -181,15 +181,29 @@ def _distort_pixels(
     r6 = r2 * r4
 
     # Radial distortion
-    numerator = 1 + distortion_coefficients.k1 * r2 + distortion_coefficients.k2 * r4 + distortion_coefficients.k3 * r6
-    denominator = 1 + distortion_coefficients.k4 * r2 + distortion_coefficients.k5 * r4 + distortion_coefficients.k6 * r6
+    numerator = (
+        1
+        + distortion_coefficients.k1 * r2
+        + distortion_coefficients.k2 * r4
+        + distortion_coefficients.k3 * r6
+    )
+    denominator = (
+        1
+        + distortion_coefficients.k4 * r2
+        + distortion_coefficients.k5 * r4
+        + distortion_coefficients.k6 * r6
+    )
     radial = numerator / denominator
     radial_distortion = normalized_pixels * radial[..., None]
 
     # Tangential distortion
     two_xy = 2 * x * y
-    dx = distortion_coefficients.p1 * two_xy + distortion_coefficients.p2 * (r2 + 2 * x**2)
-    dy = distortion_coefficients.p2 * two_xy + distortion_coefficients.p1 * (r2 + 2 * y**2)
+    dx = distortion_coefficients.p1 * two_xy + distortion_coefficients.p2 * (
+        r2 + 2 * x**2
+    )
+    dy = distortion_coefficients.p2 * two_xy + distortion_coefficients.p1 * (
+        r2 + 2 * y**2
+    )
     tangential_distortion = np.stack((dx, dy), axis=-1)
 
     # Prism distortion
@@ -205,14 +219,19 @@ def _distort_pixels(
         cos_tx, sin_tx = np.cos(tx), np.sin(tx)
         cos_ty, sin_ty = np.cos(ty), np.sin(ty)
 
-        tilt_matrix = np.array([
-            [cos_tx, 0.0, 0.0],
-            [-sin_tx * sin_ty, cos_ty, 0.0],
-            [sin_ty, -sin_tx * cos_ty, cos_tx * cos_ty]
-        ], dtype=np.float32)
+        tilt_matrix = np.array(
+            [
+                [cos_tx, 0.0, 0.0],
+                [-sin_tx * sin_ty, cos_ty, 0.0],
+                [sin_ty, -sin_tx * cos_ty, cos_tx * cos_ty],
+            ],
+            dtype=np.float32,
+        )
 
         # Pad distorted points to shape (..., 3) for matrix multiplication
-        padded = np.concatenate([distorted, np.ones((*distorted.shape[:2], 1), dtype=np.float32)], axis=-1)
+        padded = np.concatenate(
+            [distorted, np.ones((*distorted.shape[:2], 1), dtype=np.float32)], axis=-1
+        )
         distorted_homogeneous = np.einsum("...j,kj->...k", padded, tilt_matrix)
 
         # Convert back from homogeneous to 2D
