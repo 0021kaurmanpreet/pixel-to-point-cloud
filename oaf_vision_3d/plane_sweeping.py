@@ -77,11 +77,11 @@ def plane_sweeping(
     )
     errors: list[np.ndarray] = []
     for depth in depths:
-        shifted_images = []
+        shifted_images_list = []
         for _image, _lens_model, _transformation_matrix in zip(
             secondary_images, secondary_lens_models, secondary_transformation_matrices
         ):
-            shifted_images.append(
+            shifted_images_list.append(
                 reproject_image_at_depth(
                     image=_image,
                     camera_vectors=camera_vectors_0,
@@ -91,7 +91,7 @@ def plane_sweeping(
                 )
             )
 
-        shifted_images = np.array(shifted_images)
+        shifted_images = np.array(shifted_images_list)
         multiple_pixel_error = np.abs(image[None, ...] - shifted_images).sum(
             axis=(0, -1)
         )
