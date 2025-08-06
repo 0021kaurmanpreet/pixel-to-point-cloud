@@ -75,7 +75,7 @@ def plane_sweeping(
         step=step_size,
         dtype=np.float32,
     )
-    errors: list[np.ndarray] = [] 
+    errors: list[np.ndarray] = []
     for depth in depths:
         shifted_images = []
         for _image, _lens_model, _transformation_matrix in zip(
