@@ -22,7 +22,9 @@
 # %% tags=["remove_input"]
 import sys
 from datetime import datetime
+
 from oaf_vision_3d.tests.results import WorkshopResult
+
 print(WorkshopResult())
 
 # %% [markdown]

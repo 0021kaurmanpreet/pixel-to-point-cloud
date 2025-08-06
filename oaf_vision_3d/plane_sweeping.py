@@ -65,7 +65,7 @@ def plane_sweeping(
     undistorted_normalized_pixels = lens_model.undistort_pixels(
         normalized_pixels=lens_model.normalize_pixels(pixels=pixels)
     )
-    camera_vectors_0 = np.pad(
+    camera_vectors = np.pad(
         undistorted_normalized_pixels, ((0, 0), (0, 0), (0, 1)), constant_values=1.0
     )
 
@@ -84,7 +84,7 @@ def plane_sweeping(
             shifted_images_list.append(
                 reproject_image_at_depth(
                     image=_image,
-                    camera_vectors=camera_vectors_0,
+                    camera_vectors=camera_vectors,
                     depth=depth,
                     lens_model=_lens_model,
                     transformation_matrix=_transformation_matrix,
@@ -113,4 +113,4 @@ def plane_sweeping(
     output_value[output_value >= depths.max()] = np.nan
     output_value[output_value <= depths.min()] = np.nan
 
-    return camera_vectors_0 * output_value[..., None]
+    return camera_vectors * output_value[..., None]
