@@ -75,7 +75,7 @@ def plane_sweeping(
         step=step_size,
         dtype=np.float32,
     )
-    error = []
+    errors: list[np.ndarray] = [] 
     for depth in depths:
         shifted_images = []
         for _image, _lens_model, _transformation_matrix in zip(
@@ -102,8 +102,8 @@ def plane_sweeping(
             np.ones((block_size, 1)) / block_size,
             mode="same",
         )
-        error.append(convoluted_error)
-    error_array = np.array(error, dtype=np.float32)
+        errors.append(convoluted_error)
+    error_array = np.array(errors, dtype=np.float32)
 
     if subpixel_fit:
         output_value = find_subvalue_poly_2(values=depths, function_value=error_array)
